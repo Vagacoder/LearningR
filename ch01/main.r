@@ -13,3 +13,6 @@ demo(plotmath)
 demo(Japanese)
 browseVignettes()
 RSiteSearch("{Bayesian regression}")
+?mean
+help("mean")
+help.search("sd")

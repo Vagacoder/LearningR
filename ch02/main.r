@@ -77,3 +77,63 @@ sin(Inf)
 # notice the difference between NaN and NA
 c(NA+1, NA*5, NA + Inf)
 c(NA + NA, NaN + NaN, NaN + NA, NA + NaN)
+
+# functions to check special numbers
+x <- c(1, Inf, -Inf, NaN, NA)
+is.infinite(x)
+is.nan(x)
+is.na(x)
+
+# note this one below, x takes a vector of boolean values
+x <- 1:10 >=5
+!x
+y <- 1:10%%2 == 0; y
+x & y
+x | y
+
+# truth table example
+x <- c(TRUE, FALSE, NA)
+xy <- expand.grid(x=x, y=x)
+within(
+  xy,
+  {
+    and <- x&y
+    or <- x|y
+    not.x <- !x
+    not.y <- !y
+  }
+)
+
+# functions any and all
+none_true <- c(FALSE, FALSE, FALSE)
+some_true <- c(FALSE, TRUE, FALSE)
+all_true <- c(TRUE, TRUE, TRUE)
+any(none_true)
+any(some_true)
+any(all_true)
+all(none_true)
+all(some_true)
+all(all_true)
+
+# Exercise 2-1
+(x <- atan2(1, 1:1000))
+x <- c(1:1000)
+y <- atan2(1, x)
+z <- 1/tan(y); z
+
+# Exercise 2-2 x, z from E2-1
+x == z
+identical(x, z)
+all.equal(x,z)
+all.equal(x,z, tolerance = 0)
+
+# Exercise 2-3
+true_and_missing <- c(TRUE, NA)
+false_and_missing <- c(FALSE, NA)
+mixed <- c(TRUE, FALSE, NA)
+any(true_and_missing)
+any(false_and_missing)
+any(mixed)
+all(true_and_missing)
+all(false_and_missing)
+all(mixed)

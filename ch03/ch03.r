@@ -43,7 +43,10 @@ as.raw(c(pi, 1 + 1i, -1, 256))
 as.raw(c(pi))
 (sushi <- charToRaw("Fish!"))
 class(sushi)
-
+(as.raw("f"))
+?charToRaw
+?as.raw
+  
 # check the class
 if (!is(sushi, "raw")){
   print("sushi is not raw!")
@@ -56,6 +59,7 @@ is.character(1)
 is.logical(FALSE)
 is.list(list(a=1, b= 2))
 
+# ls() function like in Linux and Unix
 ls(pattern = "^is", baseenv())
 
 # watch out the integer and float number class checking, 
@@ -79,6 +83,7 @@ x
 
 # auto printing
 numbers <- c(1,2,3,4,5,6)
+# auto printing does not work inside loop
 for (i in numbers) i
 for (i in numbers) print(i)
 
@@ -89,6 +94,8 @@ summary(num)
 fac <- factor(sample(letters[1:5], 30, replace = TRUE))
 fac
 summary(fac)
+?summary
+?sample
 
 bool <- sample(c(TRUE, FALSE, NA), 30, replace = TRUE)
 bool
@@ -125,8 +132,11 @@ ls.str()
 browseEnv()
 
 # remove variable
+ls()
 new_dfr
 rm(new_dfr)
+new_drf
+ls()
 
 # Exercise 3-1
 

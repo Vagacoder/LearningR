@@ -112,3 +112,190 @@ rep.int(1:5, 3)
 rep_len(1:5, 13)
 
 ## Matrices and Arrays
+# array function
+three_d_array <- array(1:25, 
+                       dim = c(4,3,2), 
+dimnames = list(c("one", "twO", "three", "four"), 
+                c("ein", "zwei", "drei"), 
+                c("un", "deux")
+                )
+                )
+
+three_d_array                                                        
+class(three_d_array)
+
+# matrix function
+a_matrix <- matrix(1:12,
+                   nrow = 4,
+                   dimnames = list(
+                     c("one", "two", "three", "four"),
+                     c("ein", "zwei", "drei")
+                   ))
+a_matrix
+class(a_matrix)
+
+(two_d_array <- array(
+  1:12,
+  dim = c(4, 3),
+  dimnames = list(
+    c("one", "two", "three", "four"),
+    c("ein", "zwei", "drei")
+  )
+))
+identical(two_d_array, a_matrix)
+class(two_d_array)
+
+# dim function
+dim(a_matrix)
+dim(three_d_array)
+dim(two_d_array)
+nrow(a_matrix)
+ncol(a_matrix)
+
+nrow(c(1:5))
+NROW(c(1:5))
+NCOL(c(1:5))
+
+length(three_d_array)
+
+# reshape a matrix
+dim(a_matrix) <- c(6,2)
+a_matrix
+dim(three_d_array) <- c(2,4,3)
+three_d_array
+
+# names of row, col and dimension
+a_matrix <- matrix(1:12,
+                   nrow = 4,
+                   dimnames = list(
+                     c("one", "two", "three", "four"),
+                     c("ein", "zwei", "drei")
+                   ))
+rownames(a_matrix)
+colnames(a_matrix)
+dimnames(a_matrix)
+
+three_d_array <- array(1:25, 
+                       dim = c(4,3,2), 
+                       dimnames = list(c("one", "twO", "three", "four"), 
+                                       c("ein", "zwei", "drei"), 
+                                       c("un", "deux")
+                       )
+)
+rownames(three_d_array)
+colnames(three_d_array)
+dimnames(three_d_array)
+
+# array indexing
+a_matrix
+a_matrix[10]
+a_matrix[1, c("zwei", "drei")]
+a_matrix[1,]
+a_matrix[, c("zwei", "drei")]
+
+# combine matrices
+(another_matrix <- matrix(
+  seq.int(2, 24, 2),
+  nrow = 4,
+  dimnames = list(
+    c("five", "six", "seven", "eight"),
+    c("vier", "funf", "sechs")
+  )
+))
+
+c(a_matrix, another_matrix)
+
+cbind(a_matrix, another_matrix)
+rbind(a_matrix, another_matrix)
+
+# Array arithmetic
+a_matrix + another_matrix
+a_matrix * another_matrix
+
+t(a_matrix)
+
+# inner multiplication
+a_matrix %*% t(a_matrix)
+#outer multiplication
+1:3 %o% 4:6
+outer(1:3, 4:6)
+
+# invert matrix
+(m <- matrix(c(1, 0, 1, 5, -3, 1, 2, 4, 7), nrow = 3))
+m ^ -1
+(inverse_of_m <- solve(m))
+m %*% inverse_of_m
+
+# ===================
+## Quiz
+#Q4-1
+c <- c(0, 0.25, 0.75, 1)
+c
+seq.int(0,1, 0.25)
+
+# Q4-2
+names(c) <- c("zero", "point 25", "point 75", "one")
+c
+d <- c("one" = "A", "two" = "B", "three" = "C", "four" = "D")
+d
+e <- c(1,2,3,4)
+names(e)
+
+#Q4-3
+d[2]
+d[c(1,2,4)]
+
+d[-3]
+d[c(-3)]
+
+d[c(TRUE, TRUE, FALSE, TRUE)]
+d[c("one", "two","four")]
+
+#Q4-4
+new_array <- array(1:60,
+                   dim=c(3, 4,5))
+new_array
+dim(new_array)
+length(new_array)
+
+#Q4-5
+#%*%
+
+# ==================
+## Excercise
+# Exercise 4-1
+
+(number <- seq.int(1:20))
+(tri20 <- number * (number+1)/2)
+letters
+seq_along(number)
+#names(tri20) <- letters[seq_along(number)]
+
+names(tri20) <- letters[c(1:20)]
+tri20
+tri20[c("a", "e", "i", "o")]
+
+# Exercise 4-2
+(a <- c(seq.int(10,0,-1),seq.int(1, 10)))
+rec42 <- diag(a)
+rec42
+diag(abs(seq.int(-10,11)))
+
+# Exercise 4-3
+a <- rep(1, times= 20)
+a
+b <- diag(a, 20, 21)
+b
+#newrow <- rep(0, times =21)
+#rbind(newrow, b)
+rec431 <- rbind(0, b)
+rec431
+
+c <- diag(a, 21, 20)
+c
+rec432 <- cbind(0,c)
+rec432
+
+newrec <- rec42 + rec431 + rec432  
+newrec
+eigen(newrec)$values

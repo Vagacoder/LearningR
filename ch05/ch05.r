@@ -67,6 +67,7 @@ l[[1]]
 l[["first"]]
 
 # is.list function
+l1
 is.list(l1)
 is.list(l1[[1]])
 typeof(l1[1])     # type of list
@@ -87,6 +88,8 @@ l[[4]]
 l[[3]]
 l[[2]]
 l[[1]]
+l[[3]][[1]]
+l[[3]][[2]]
 
 # Convert vector and list
 busy_beaver <- c(1, 6, 21, 107)
@@ -206,5 +209,100 @@ a_data_frame$x[2:3]
 a_data_frame[[1]][2:3]
 a_data_frame[["x"]][2:3]
 
+# subset of data frame
 a_data_frame[a_data_frame$y > 0 | a_data_frame$z, "x"]
 subset(a_data_frame, y > 0 | z, x)
+
+# data frame manipulation
+a_data_frame
+t(a_data_frame)     # Notice: all elements are converted to same type
+t(t(a_data_frame))
+
+another_data_frame <- data.frame( #same cols as a_data_frame, different order
+  z = rlnorm(5), #lognormally distributed numbers
+  y = sample(5), #the numbers 1 to 5, in some order
+  x = letters[3:7]
+)
+
+# use rbind and cbind on 2 data frames
+rbind(a_data_frame, another_data_frame)
+cbind(a_data_frame, another_data_frame)
+
+# merge
+merge(a_data_frame, another_data_frame, by = "x")
+merge(a_data_frame, another_data_frame, by = "z")
+merge(a_data_frame, another_data_frame, by = "x", all = TRUE)
+merge(a_data_frame, another_data_frame, all = TRUE)
+
+# colSums and colMeans
+colSums(a_data_frame[, 2:3])
+colMeans(a_data_frame[, 2:3])
+
+# Quiz ==================
+# Q5-1
+NROW(list(alpha = 1, list(beta = 2, gamma = 3, delta = 4), eta = NULL))
+# note, nrow does not work for list. Should use NROW
+
+# Q5-2
+# pairlist for arguments, call formals(), global enviroment variabe.options
+
+# Q5-3
+# 1, subset()
+# 2, using indexing
+
+# Q5-4
+# 1, create using merge()
+# 2, create using cbind()
+#
+# By passing check.names = FALSE to data.frame.
+data.frame(
+  x = letters[1:5],
+  x = month.name[1:5],
+  z = runif(5) > 0.5,
+  check.names = FALSE
+)
+# Q5-5
+# 1, merge()
+# 2, cbind() rbind()
+
+# Exercise ================================
+# E5-1
+# find square of 1 to 10 (square range 1 to 100)
+number <- c(1:10)
+sq <- number**2
+# make a list
+list(c(0,1,4,9), c(16), 25, 36, 49, NULL, 64, NULL, 81, NULL)
+
+# a much better method from textbook
+x <- 0:99
+sqrt <- sqrt(x)
+isSq <- sqrt == floor(sqrt)
+sqNumber <- x[isSq]
+sqNumber
+groups <- cut(
+  sqNumber,
+  seq.int(min(x), max(x), 10),
+  include.lowest = TRUE,
+  right = FALSE
+)
+split(sqNumber, groups)
+#
+
+# E5-2
+iris
+typeof(iris)
+sub_iris <- subset(iris, TRUE, c(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width))
+sub_iris <- iris[, 1:4]
+sub_iris
+colSums(sub_iris)
+
+# E5-3
+n1 <- nrow(beaver1)
+n2 <- nrow(beaver2)
+id <- rep(1, n1)
+newB1 <- cbind(id, beaver1)
+id <- rep(1, n2)
+newB2 <- cbind(id, beaver2)
+newB <- rbind(newB1, newB2)
+# newAB <- newB["activ" == 1,1:5]
+newAB <- subset(newB, activ == 1)

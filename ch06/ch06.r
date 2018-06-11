@@ -153,7 +153,7 @@ f(sqrt(5))
 # global environment = user workspace
 
 # Q6-2
-# as.environment() and list2env as.list()
+# as.environment() and list2env, as.list() for opposite ops
 
 # Q6-3
 # type the name of function

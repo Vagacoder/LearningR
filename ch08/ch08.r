@@ -250,3 +250,35 @@ if (crap_score %in% c(2,3,12)){
 }
 game_status       
 point
+
+
+# E8-2
+if (is.na(crap_score)){
+while (game_status != TRUE & game_status != FALSE){
+  crap_score <- two_d6(1)
+  if (crap_score == 7){
+    game_status <- FALSE
+  } else if (crap_score == point){
+    game_status <- TRUE
+  }
+}
+}
+
+# E8-3
+sea_shells <- c(
+  "She", "sells", "sea", "shells", "by", "the", "seashore",
+  "The", "shells", "she", "sells", "are", "surely", "seashells",
+  "So", "if", "she", "sells", "shells", "on", "the", "seashore",
+  "I'm", "sure", "she", "sells", "seashore", "shells"
+)
+
+for (i in sea_shells){
+  print(sprintf("%s has %d words", i, nchar(i)))
+}
+
+charNumber <- nchar(sea_shells)
+for (i in min(charNumber):max(charNumber)){
+  print(sprintf("%d word", i))
+  print(toString(unique(sea_shells[charNumber == i])))
+}
+

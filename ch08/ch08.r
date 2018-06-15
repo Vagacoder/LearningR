@@ -277,8 +277,8 @@ for (i in sea_shells){
 }
 
 charNumber <- nchar(sea_shells)
+charNumber
 for (i in min(charNumber):max(charNumber)){
-  print(sprintf("%d word", i))
-  print(toString(unique(sea_shells[charNumber == i])))
+  print(sprintf("%d letter words: %s", i, toString(unique(sea_shells[charNumber == i]))))
 }
 

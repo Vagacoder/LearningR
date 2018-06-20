@@ -196,7 +196,76 @@ b_days2
 strftime(b_days2, "%a %d %b %y")
       
 # E11-2
+# 1
 Sys.timezone(location = TRUE)
+# 1
+tzFile <- file.path(R.home("share"), "zoneinfo", "zone.tab")
+tzones <- read.delim(
+  tzFile,
+  row.names = NULL,
+  header = FALSE,
+  col.names = c("country", "coords", "name", "comments"),
+  as.is = TRUE,
+  fill = TRUE,
+  comment.char = "#"
+)
+tzones
+View(tzones)
+tzones[, "name"]
+tzones[, 3]
+subset(tzones, name == "America/Los_Angeles")
 
 # E11-3
-input <- input("your B days: ")
+# zodiac function define
+zodiac <- function(inputDate){
+  month <- as.numeric(strftime(inputDate, "%m"))
+  day <- as.numeric(strftime(inputDate, "%d" ))
+  #print(month)
+  #print(day)
+  
+  if (month == 04) {
+    if (day < 20) {sign <- "Aries"} else {sign <- "Taurus"}
+  }
+  if (month == 05){
+    if (day < 21) {sign <- "Taurus"} else {sign <- "Gemini"}
+  }
+  if (month == 06){
+    if (day < 21) {sign <- "Gemini"} else { sign <- "Cancer"}
+  }
+  if (month == 07) {
+    if (day < 23) {sign <- "Cancer"} else { sign <- "Leo"}
+  }
+  if (month == 08) {
+    if (day < 23) {sign <- "Leo"} else { sign <- "Virgo"}
+  }
+  if (month == 09) {
+    if (day < 23) {sign <- "Virgo"} else { sign <- "Libra"}
+  }
+  if (month == 10) {
+    if (day < 23) {sign <- "Libra"} else { sign <- "Scorpio"}
+  }
+  if (month == 11) {
+    if (day < 22) {sign <- "Scorpio"} else { sign <- "Sagittarius"}
+  }
+  if (month == 12) {
+    if (day < 22) {sign <- "Saggitarius"} else { sign <- "Capricorn"}
+  }
+  if (month == 01) {
+    if (day < 20) {sign <- "Capricorn"} else { sign <- "Aquarius"}
+  }
+  if (month == 02) {
+    if (day < 19) {sign <- "Aquarius"} else { sign <- "Pisces"}
+  }
+  if (month == 03) {
+    if (day < 21) {sign <- "Pisces"} else { sign <- "Aries"}
+  }
+  print(sign)
+}
+
+# testing 
+today <- Sys.Date()
+today
+zodiac(today)
+nicolaus_copernicus_birth_date <- as.Date("1473-02-19")
+nicolaus_copernicus_birth_date
+zodiac(nicolaus_copernicus_birth_date)

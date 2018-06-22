@@ -146,3 +146,177 @@ bike_data <- read.xlsx2(
 )
 head(bike_data)
 
+# Other file types reading
+# using foreign package to read SAS, Stata, SPSS  
+library(foreign)
+# using matlab package to read MATLAB
+library(matlab)
+
+# 5. Web Data
+# world development indicator data form World Bank 
+install.packages("WDI")
+library(WDI)
+wdi_datasets <- WDIsearch()
+head(wdi_datasets)
+
+wdi_trade_in_services <- WDI(
+  indicator = "BG.GSR.NFSV.GD.ZS"
+)
+str(wdi_trade_in_services)
+
+# quantmod for stock tickers
+install.packages("quantmod")
+library(quantmod)
+options(getSymbols.auto.assign = FALSE)
+microsoft <- getSymbols("MSFT")
+head(microsoft)
+
+# twittR package
+
+# scraping web pages
+# using read.csv function and its derivatives.
+salary_url <- "http://www.justinmrao.com/salary_data.csv"
+salary_data <- read.csv(salary_url)
+str(salary_data)
+salary_data
+
+# download the file
+local_copy <- "my local copy.csv"
+download.file(salary_url, local_copy)
+salary_data <- read.csv(local_copy)
+salary_data
+
+# using RCurl pkg for data inside the HTML and XML
+install.packages("RCurl")
+library(RCurl)
+time_url <- "http://tycho.usno.navy.mil/cgi-bin/timer.pl"
+time_page <- getURL(time_url)
+cat(time_page)
+
+# after RCurl read the web page, using htmlParse in XML pkg
+# then split using "\n" for lines, and "\t" for different fields
+time_doc <- htmlParse(time_page)
+time_doc
+pre <- xpathSApply(time_doc, "//pre")[[1]]
+pre
+values <- strsplit(xmlValue(pre), "\n")[[1]][-1]
+values
+strsplit(values, "\t+")
+
+# httr pkg
+library(httr)
+time_page <- GET(time_url)
+time_page
+time_doc <- content(page, useInternalNodes = TRUE)
+time_doc
+
+# 6. Accessing database
+# SQLite database
+# need 2 pkg
+install.packages("DBI")
+install.packages("RSQLite")
+library(DBI)
+library(RSQLite)
+# define a database driver, type is "SQLite"
+driver <- dbDriver("SQLite")
+# read a database file
+db_file <- system.file(
+  "extdata",
+  "crabtag.sqlite",
+  package = "learningr"
+)
+# connect the database driver and database file
+conn <- dbConnect(driver, db_file)
+
+# MySQL
+install.packages("RMySQL")
+library(RMySQL)
+driver <- dbDriver("MySQL")
+db_file <- "path/to/MySQL/database"
+conn <- dbConnect(driver, db_file)
+
+query <- "SELECT * FROM IdBlock"
+(id_block <- dbGetQuery(conn, query))
+
+# close the connection
+dbDisconnect(conn)
+dbUnloadDriver(driver)
+
+# to ensure close the connection, wrap into a function and use "on.exit"
+query_crab_tag_db <- function(query)
+{
+  driver <- dbDriver("SQLite")
+  db_file <- system.file(
+    "extdata",
+    "crabtag.sqlite",
+    package = "learningr"
+  )
+  conn <- dbConnect(driver, db_file)
+  on.exit(
+    {
+      #this code block runs at the end of the function,
+      #even if an error is thrown
+      dbDisconnect(conn)
+      dbUnloadDriver(driver)
+    }
+  )
+  dbGetQuery(conn, query)
+}
+
+query_crab_tag_db("SELECT * FROM IdBlock")
+
+# dbreadTable function
+dbReadTable(conn, "idblock")
+
+## Quiz
+# Q12-1
+data()
+data(package = .packages(TRUE))
+
+# Q12-2
+# read.csv() use a comma as default separator, and assume a head row
+# read.csv2() use a comma for decimal place and semicolon as separator.
+
+# Q12-3
+# use read.xlsx() or read.xlsx2() to read Excel spreadsheet.
+
+# Q12-4
+# read.table() and read.csv() can access the web file
+# down.file() can download file.
+
+# Q12-5
+# DBI support databases of MySQL, SQLite and Oracle database
+
+## Exercises
+library(learningr)
+# E12-1
+hafuFile <- system.file("extdata", "hafu.csv", package = "learningr")
+hafuData <- read.csv(hafuFile)
+head(hafuData)
+hafuData
+
+# E12-2
+library(xlsx)
+infectionFile <- system.file("extdata", 
+"multi.drug.resistant.gonorrhoea.infection.xls", package = "learningr")
+infectionData <- read.xlsx2(infectionFile, 1 
+ #, colClasses = C("integer", "character", "character", "numeric")
+ )
+infectionData
+
+# E12-3
+library(DBI)
+library(RSQLite)
+SQLiteDriver <- dbDriver("SQLite")
+daylongFile <- system.file("extdata", "crabtag.sqlite", package = "learningr")
+conn <- dbConnect(SQLiteDriver, daylongFile)
+
+# method 1, read using dbReadTable()
+head(dbReadTable(conn, "Daylog"))
+
+# method 2, read using SQL command
+query <- "SELECT * FROM Daylog"
+head(daylog <- dbGetQuery(conn, query))
+
+dbDisconnect(conn)
+dbUnloadDriver(SQLiteDriver)

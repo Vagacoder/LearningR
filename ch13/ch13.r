@@ -124,6 +124,7 @@ deer_wide <- deer_endocranial_volume[, 1:5]
 deer_wide
 
 # melt function in reshape2 pkg (reshape2 pkg is better than reshape pkg)
+install.packages("reshape2")
 library(reshape2)
 deer_long <- melt(deer_wide, id.vars = "SkullID")
 head(deer_long)
@@ -283,3 +284,41 @@ head(hafuData)
 hafuData$Father <- str_replace(hafuData$Father, fixed("?"), "")
 hafuData$Mother <- str_replace(hafuData$Mother, fixed("?"), "")
 head(hafuData)
+
+# E13-2
+# this is measuring only one variable "Father", and change to long form
+hafuData_long <- melt(hafuData, id.vars = "Father")
+head(hafuData_long)
+
+# this is measuring two variables, and change to long form
+hafuData_long1 <- melt(hafuData, measure.vars = c("Father", "Mother"))
+head(hafuData_long1)
+head(hafuData)
+hafuData_long1
+
+# E13-3
+common <- function(x) {
+  counted <- count(x)
+  sorted <- sort(counted, decreasing = TRUE)
+  unique(sorted)[1:10]
+}
+common(hafuData$Mother)
+
+# key is the table function
+table(hafuData$Mother)
+head(sort(table(hafuData$Mother), decreasing = TRUE), 10)
+
+# count function then make a new data frame 
+counted_hafu_mother <- count(hafuData$Mother)
+counted_hafu_mother
+ordered_hafu_mother <- order(counted_hafu_mother$freq, decreasing = TRUE)
+ordered_hafu_mother
+mother_table <- data.frame(
+  Mother = counted_hafu_mother$x[ordered_hafu_mother],
+  Count = counted_hafu_mother$freq[ordered_hafu_mother]
+)
+mother_table
+head(mother_table, 10)
+
+# arrange() is much easier to use 
+arrange(counted_hafu_mother, desc(freq))

@@ -54,7 +54,7 @@ with(obama_vs_mccain, cancor(Obama, McCain))
 
 # scatterplots
 # e.g. 1. Obama vs McCain, correlation of income and poll
-# take 1: base
+## take 1: base
 # keep all variable in one data frame
 
 # step 1, remove data whose Turnout is missed (NA)
@@ -77,7 +77,7 @@ for(region in regions){
   with(regional_data, plot(Income, Turnout))
 }
 
-# take 2: lattice
+## take 2: lattice
 library(lattice)
 xyplot(Turnout ~ Income, obama_vs_mccain)
 xyplot(Turnout ~ Income, obama_vs_mccain, col = "violet", pch = 20)
@@ -111,9 +111,94 @@ xyplot(Turnout ~ Income | Region,
 # then update the variable to update the plot
 (lat2 <- update(lat1, col = "violet", pch = 20))
 
-# take 3: ggplot
+#3 take 3: ggplot
+install.packages("ggplot2")
 library(ggplot2)
+# + geom_point() is to draw the plot
 ggplot(obama_vs_mccain, aes(Income, Turnout)) + geom_point()
 ggplot(obama_vs_mccain, aes(Income, Turnout)) +
-  geom_point(color = "violet", shape = 1)
+  geom_point(color = "violet", shape = 20)
 
+# + scale for axis
+ggplot(obama_vs_mccain, aes(Income, Turnout)) +   geom_point() + 
+  scale_x_log10(breaks = seq(2e4, 4e4, 1e4)) +
+  scale_y_log10(breaks = seq(50, 75, 5))
+
+# + facet for split into individual panels
+ggplot(obama_vs_mccain, aes(Income, Turnout)) + geom_point() +
+  scale_x_log10(breaks = seq(2e4, 4e4, 1e4)) +
+  scale_y_log10(breaks = seq(50, 75, 5)) +
+  facet_wrap(~ Region, ncol = 5)
+
+# ggplot can be stored in variables
+(gg1 <- ggplot(obama_vs_mccain, aes(Income, Turnout)) +    geom_point())
+(gg2 <- gg1 +   facet_wrap(~ Region, ncol = 5) +
+    theme(axis.text.x = element_text(angle = 30, hjust = 1))
+)
+
+# Line plot
+## base 
+# load file
+crab_file <- system.file("extdata", "crabtag.csv", package = "learningr")
+# read csv file, Daylog part only
+crab_tag <- read.csv(crab_file, header = TRUE, skip = 27)
+crab_tag
+# parse the string to date
+crab_tag$Date <- strptime(crab_tag$Date, "%d/%m/%Y", tz = "UTC")
+crab_tag
+# draw scatter plot
+with(crab_tag,plot(Date, Max.Depth))
+# draw line plot of Max.Depth
+with(crab_tag,plot(Date, -Max.Depth, type = "l", ylim = c(-max(Max.Depth), 0)))
+# add a line plot of Min.Depth
+with(crab_tag, lines(Date, -Min.Depth, col = "blue"))
+
+## lattice
+xyplot(-Min.Depth + -Max.Depth ~ Date, crab_tag, type = "l")
+
+## ggplot2
+# easy way to do
+ggplot(crab_tag, aes(Date, -Min.Depth)) + geom_line()
+ggplot(crab_tag, aes(Date)) +
+  geom_line(aes(y = -Max.Depth)) +
+  geom_line(aes(y = -Min.Depth))
+
+# proper way to do
+library(reshape2)
+# convert the class of Date to POSIXct
+crab_tag$Date <- as.POSIXct(crab_tag$Date)
+class(crab_tag$Date)
+# convert to long form (this is stupid!)
+crab_long <- melt(
+  crab_tag, id.vars = "Date", measure.vars = c("Min.Depth", "Max.Depth"))
+crab_long
+# finally we can draw the plots
+ggplot(crab_long, aes(Date, -value, group = variable)) +
+  geom_line()
+
+# third way
+ggplot(crab_tag, aes(Date, ymin = -Min.Depth, ymax = -Max.Depth)) +
+  geom_ribbon(color = "black", fill = "white")
+
+# Histograms
+## base
+with(obama_vs_mccain, hist(Obama))
+# change the number of bins (or width of bins, or algorithmn)
+with(obama_vs_mccain, hist(Obama, 4))
+with(obama_vs_mccain, hist(Obama, c(20, 35, 50, 65, 80, 95)))
+with(obama_vs_mccain,hist(Obama, seq.int(0, 100, 5), main = "A vector of bin edges"))
+with(obama_vs_mccain, hist(Obama, "FD", main = "The name of a method"))
+with(obama_vs_mccain,
+     hist(Obama, nclass.scott, main = "A function for the number of bins")
+)
+# a function to split 50 bins
+binner <- function(x){
+  seq(min(x, na.rm = TRUE), max(x, na.rm = TRUE), length.out = 50)
+}
+binner(10)
+with(obama_vs_mccain,
+     hist(Obama, binner, main = "A function for the bin edges")
+)
+
+# freq argument
+with(obama_vs_mccain, hist(Obama, freq = TRUE))

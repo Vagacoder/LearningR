@@ -202,3 +202,119 @@ with(obama_vs_mccain,
 
 # freq argument
 with(obama_vs_mccain, hist(Obama, freq = TRUE))
+
+## lattice
+histogram(~ Obama, obama_vs_mccain)
+histogram(~ Obama, obama_vs_mccain, breaks = 10)
+# type argument
+histogram(~ Obama, obama_vs_mccain, type = "percent")
+
+## ggplot2
+ggplot(obama_vs_mccain, aes(Obama)) + geom_histogram(binwidth = 5)
+ggplot(obama_vs_mccain, aes(Obama, ..density..)) +
+  geom_histogram(binwidth = 5)
+
+# Box plot
+## base
+boxplot(Obama ~ Region, data = obama_vs_mccain)
+# change the order using reorder()
+ovm <- within(obama_vs_mccain,Region <- reorder(Region, Obama, median))
+boxplot(Obama ~ Region, data = ovm)
+
+## lattice
+bwplot(Obama ~ Region, data = ovm)
+
+## ggplot2
+ggplot(ovm, aes(Region, Obama)) + geom_boxplot()
+
+# Bar Chart
+# remove data of alaska and hawaii
+ovm <- ovm[!(ovm$State %in% c("Alaska", "Hawaii")), ]
+
+# base
+par(las = 1, mar = c(3, 9, 1, 1))
+with(ovm, barplot(Catholic, names.arg = State, horiz = TRUE))
+
+religions <- with(ovm, rbind(Catholic, Protestant, Non.religious, Other))
+religions
+colnames(religions) <- ovm$State
+par(las = 1, mar = c(3, 9, 1, 1))
+barplot(religions, horiz = TRUE, beside = FALSE)
+
+# lattice
+barchart(State ~ Catholic, ovm)
+barchart(
+  State ~ Catholic + Protestant + Non.religious + Other,
+  ovm,
+  stack = TRUE
+)
+
+# ggplot2
+library(reshape2)
+religions_long <- melt(ovm, 
+      id.vars = "State",
+      measure.vars = c("Catholic", "Protestant", "Non.religious", "Other"))
+religions_long
+
+ggplot(religions_long, aes(State, value, fill = variable)) +
+  geom_bar(stat = "identity") +
+  coord_flip()
+
+ggplot(religions_long, aes(State, value, fill = variable)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  coord_flip()
+
+## Quiz
+# Q14-1
+# min() for all data in same vector, 
+# pmin() for data in same row for multiple vectors
+
+# Q14-2
+# "pch" argument
+
+# Q14-3
+# yvar ~ xvar format
+
+# Q14-4
+# specify xvar and yvar, and color/shape
+
+# Q14-5
+# Histogram, box
+
+## Exercises
+# E14-1
+data(obama_vs_mccain, package = "learningr")
+obama_vs_mccain
+
+with(obama_vs_mccain, cor(Obama, Unemployment))
+
+with(obama_vs_mccain, plot(Obama, Unemployment))
+xyplot(Unemployment ~ Obama, obama_vs_mccain)
+ggplot(obama_vs_mccain, aes(Obama, Unemployment)) + geom_point()
+
+# E14-2
+# read xlsx file
+library(xlsx)
+alpeFile <- system.file("extdata", "Alpe.d.Huez.xls", package = "learningr")
+alpe <- read.xlsx2(alpeFile, sheetIndex = 1, startRow = 2, endRow = 38, 
+                   colIndex = 2:8,
+                   colClasses = c(
+                     "character", "numeric", "character", "integer",
+                     "character", "character", "character"))
+alpe
+
+# use lattice
+class(alpe$NumericTime)
+histogram(~NumericTime | DrugUse, alpe)
+bwplot(~NumericTime | DrugUse, alpe)
+
+# use base
+with(alpe, hist(NumericTime))
+boxplot(NumericTime ~ DrugUse, alpe)
+
+# use ggplot2
+ggplot(alpe, aes(NumericTime)) + geom_histogram(binwidth = 2) + facet_wrap(~  DrugUse)
+ggplot(alpe, aes(DrugUse, NumericTime)) + geom_boxplot()
+
+# E14-3
+

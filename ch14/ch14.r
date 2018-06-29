@@ -317,4 +317,35 @@ ggplot(alpe, aes(NumericTime)) + geom_histogram(binwidth = 2) + facet_wrap(~  Dr
 ggplot(alpe, aes(DrugUse, NumericTime)) + geom_boxplot()
 
 # E14-3
+gonoFile <- system.file("extdata", "multi.drug.resistant.gonorrhoea.infection.xls", package = "learningr")
+gono <- read.xlsx2(gonoFile, sheetIndex = 1, startRow = 1, endRow = 101,
+                   colIndex = 1:4,
+                   colClasses = c("numeric", "character","character", "numeric"))
+gono
+summary(gono)
+with(gono, cancor(Rate, Age.Group))
+ggplot(gono, aes(Age.Group, Rate)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~ Year + Gender)
 
+ggplot(gono, aes(Age.Group, Rate, group = Year, fill = Year)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~ Gender)  +
+  theme(axis.text.x = element_text(angle = 30, hjust = 1))
+
+ggplot(gono, aes(Age.Group, Rate, group = Year, color = Year)) +
+  geom_line() +
+  facet_wrap(~  Gender)
+
+
+xyplot(Rate ~ Age.Group | Year, 
+       gono, 
+       layout = c(4, 2), 
+       scales=list(x=list(rot=45)))
+xyplot(Rate ~ Age.Group | Gender, 
+       gono, 
+       layout = c(2,1), 
+       scales=list(x=list(rot=45), alternating = FALSE)
+       )
+barchart(Rate ~ Age.Group  | Year, gono, scales=list(x=list(rot=45)))
+xyplot(Rate ~ Age.Group | Gender, gono, layout = c(2,1), type = "l", scales=list(x=list(rot=45)))

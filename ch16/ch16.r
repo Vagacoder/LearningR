@@ -336,3 +336,46 @@ a_three_d_point$distanceFromOrigin()
 
 # Q16-5
 # overload methods
+
+## Exercises
+# E16-1
+harmonic <- function(x, na.rm =FALSE){
+  if (!is.numeric(x)){
+    warning ("Please input number, non-numeric input is removed")
+    x <- as.numeric(x)
+  } 
+  for (a in x){
+  if (!is.na(a) & a < 0){
+    stop ("please input positive numbers")
+  }  }
+  print(x)
+  result <- 1/mean(1/x, na.rm = TRUE)
+  result
+}
+
+harmonic(c(1, 2, -1))
+harmonic(c(1, 2, "a"))
+harmonic(c(1, 2, 3))
+
+c(1,2)[1]
+class(c(1,2)[1])
+is.numeric(c(1,2, "a")[1])
+is.numeric(c(1,2, "a"))
+as.numeric(c(1,2,"a"))
+is.numeric(as.numeric(c(1,2,"a")))
+is.numeric(NA)
+
+# E16-2
+library(RUnit)
+expected <- 12/7
+actual <- harmonic(c(1,2,4))
+checkEqualsNumeric(expected, actual)
+checkException(harmonic())
+
+
+library(testthat)
+expect_equal(expected, actual)
+expect_error(harmonic())
+
+# E16-3
+

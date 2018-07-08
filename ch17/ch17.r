@@ -59,6 +59,17 @@ check("pythagorus")
 # Q17-5
 # .Deprecated() then .Defunct()
 
+## Exercises
+# E17-1
+sum_of_squares <- function(x){
+  result <- x *(x+1)*(2*x +1)/6
+  result
+}
+sum_of_squares(2)
+square_data <- data.frame(c(1:10), sum_of_squares(1:10))
+package.skeleton("sum_square", c("sum_of_squares", "square_data" ))
 
-
-
+# E17-2
+# E17-3
+check("sum_square")
+build("sum_square")

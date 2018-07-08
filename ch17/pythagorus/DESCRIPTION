@@ -1,0 +1,10 @@
+Package: pythagorus
+Type: Package
+Title: Hypotenuse
+Version: 1.0
+Date: 2018-07-07
+Author: Qirui Hu
+Maintainer: Qirui Hu <hu575757@hotmail.com>
+Description: Testing package with a function of hypotenuse
+License: "Unlimited"
+RoxygenNote: 6.0.1

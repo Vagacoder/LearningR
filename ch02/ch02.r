@@ -4,6 +4,7 @@
 1:5
 6:10
 1:5 + 6:10
+1:5 + 6:11 # this raises a warning, since different size
 c(1,2,3,4,5)
 c(6,7,8,9,10)
 c(1,2,3,4,5) + c(6,7,8,9,10)
@@ -13,12 +14,14 @@ sum(1:5)
 median(1:5)
 sum(1,2,3,4,5)
 median(1,2,3,4,5)
+
 c(2,3,5,7,11,13)-2
 -2:2 * -2:2
 identical(2^3, 2**3)
-1:10/3
-1:10%/%3    # integer division
-1:10%%3     # reminder division
+
+1:10 / 3
+1:10 %/% 3    # integer division
+1:10 %% 3     # reminder division
 
 cos(c(0, pi/4, pi/2, pi))
 exp(pi * 1i) +1
@@ -85,10 +88,11 @@ is.nan(x)
 is.na(x)
 
 # note this one below, x takes a vector of boolean values
-x <- 1:10 >=5
+x <- 1:10 >=5; x
 !x
 y <- 1:10%%2 == 0; y
 x & y
+!x & y
 x | y
 
 # truth table example
@@ -115,6 +119,28 @@ all(none_true)
 all(some_true)
 all(all_true)
 
+## Quiz
+# Q2-1
+# integer division is %/%
+
+# Q2-2
+# all.equal(x, pi)
+
+# Q2-3
+# x <- 1
+# x = 1
+# assign(x, 1)
+
+# Q2-4
+# Inf and - Inf are infinite
+is.infinite(c(0, Inf, -Inf, NaN, NA))
+
+# Q2-5
+# 0, Inf, -Inf, NaN is considered as missing
+is.na(c(0, Inf, -Inf, NaN, NA))
+
+
+## Exercises
 # Exercise 2-1
 (x <- atan2(1, 1:1000))
 x <- c(1:1000)

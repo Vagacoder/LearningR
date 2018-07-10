@@ -138,7 +138,24 @@ rm(new_dfr)
 new_drf
 ls()
 
-# Exercise 3-1
+## Quiz
+# Q3-1
+# numeric, integer, complex
+
+# Q3-2
+# nlevels()
+
+# Q3-3
+# as.numeric()
+
+# Q3-4
+# View(), head(), str(), print(), summary(), cat(), fix(), edit()
+
+# Q3-5
+# rm(a = ls())
+
+## Exercise 
+# E3-1
 
 # put everything into a vector does not work
 a <- c(Inf, NA, NaN)
@@ -170,6 +187,9 @@ chosen <- sample(animals, 1000, replace = TRUE)
 head(chosen)
 summary(chosen)
 nlevels(factor(chosen))
+ch_fac <- factor(chosen)
+head(ch_fac)
+summary(ch_fac)
 
 
 # E3-3

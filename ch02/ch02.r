@@ -95,6 +95,7 @@ x & y
 !x & y
 x | y
 
+# TRUTH TABLE
 # truth table example
 x <- c(TRUE, FALSE, NA)
 xy <- expand.grid(x=x, y=x)

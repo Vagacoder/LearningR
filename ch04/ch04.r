@@ -59,12 +59,15 @@ length(poincare) <- 8
 poincare
 
 # Name (for each element in vector)
-c(apple = 1, banana =2 , "kiwi fruit" = 3,4 )
-
+y <- c(apple = 1, banana =2 , "kiwi fruit" = 3, 4 )
+y["kiwi fruit"]
+names(y)
 # add name after creation using name function
 x <- 1:4
+names(x)
 names(x) <- c("apple", "banana", "kiwi fruit", "")
 x
+names(x)
 
 # names can retrive names
 names(x)
@@ -80,6 +83,7 @@ x[1]
 x[(123)]
 names(x) <- c("one", "four", "nine", "sixteen", "twenty five")
 x[c("one", "nine", "twenty five")]
+
 # this mixing positive and negative is not allowed
 x[c(1, -1)]
 x[c(1,NA,5)]

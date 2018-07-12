@@ -158,16 +158,18 @@ pairlist()
 # Data frame
 (a_data_frame <- data.frame(
   x = letters[1:5],
-  y = rnorm(5),
+  y = c(rnorm(4), 1),
   z = runif(5) > 0.5
 ))
 class(a_data_frame)
 
 # name of data frame rows
+x = letters[1:5]
+names(x) <- c("a", "b", "c", "d", "e")
 y <- rnorm(5)
 names(y) <- month.name[1:5]
 data.frame(
-  x = letters[1:5],
+  x = x,
   y = y,
   z = runif(5) > 0.5
 )
@@ -295,13 +297,14 @@ sub_iris <- subset(iris, TRUE, c(Sepal.Length, Sepal.Width, Petal.Length, Petal.
 sub_iris <- iris[, 1:4]
 sub_iris
 colSums(sub_iris)
+colSums(sub_iris)/NROW(sub_iris)
 
 # E5-3
 n1 <- nrow(beaver1)
 n2 <- nrow(beaver2)
 id <- rep(1, n1)
 newB1 <- cbind(id, beaver1)
-id <- rep(1, n2)
+id <- rep(2, n2)
 newB2 <- cbind(id, beaver2)
 newB <- rbind(newB1, newB2)
 # newAB <- newB["activ" == 1,1:5]

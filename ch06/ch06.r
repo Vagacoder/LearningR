@@ -16,7 +16,7 @@ View(an_environment)
 # retrieve variable form environment
 an_environment[["pythag"]]
 an_environment$root
-get("moonday", an_environment)
+moonday <- get("moonday", an_environment)
 
 # list environment content
 ls(an_environment)
@@ -31,8 +31,8 @@ exists("python", an_environment)
 (a_list <- as.list(an_environment))
 
 # to environment
-as.environment(a_list)
-list2env(a_list)
+new_env <- as.environment(a_list)
+new_env1 <- list2env(a_list)
 
 # nested environment
 nested_environment <- new.env(parent = an_environment)
@@ -41,9 +41,14 @@ exists("pythag", nested_environment, inherits = FALSE)
 nested_environment
 View(nested_environment)
 
+# all new variables are stored in globalenv()
 non_stormers <<- c(3, 7, 8, 13, 17, 18, 21)
 get("non_stormers", envir = globalenv())
+ls(envir = globalenv())
+
+# all R build-in functions are stored in baseenv()
 head(ls(envir = baseenv()), 20)
+ls(envir = baseenv())
 
 ## Functions
 # check the code of function
@@ -58,6 +63,8 @@ hypotenuse <- function(x, y)
 hypotenuse(3, 4)
 hypotenuse()
 formals(hypotenuse)
+args(hypotenuse)
+formalArgs(hypotenuse)
 
 # provide default values for arguments
 hypotenuse <- function(x = 5, y = 12)
@@ -66,6 +73,8 @@ hypotenuse <- function(x = 5, y = 12)
 }
 hypotenuse()
 formals(hypotenuse)
+args(hypotenuse)
+formalArgs(hypotenuse)
 
 # get the code body of function
 (body_of_hypotenuse <- body(hypotenuse))
@@ -76,6 +85,7 @@ normalize <- function(x, m = mean(x), s = sd(x))
 {
   (x - m) / s
 }
+normalize(c(1, 3, 6, 10, 15))
 normalized <- normalize(c(1, 3, 6, 10, 15))
 mean(normalized)
 sd(normalized)
@@ -159,9 +169,6 @@ f(sqrt(5))
 # type the name of function
 
 # Q6-4
-?sd
-?mean
-?sum
 # formals, args, formalArgs
 
 # Q6-5

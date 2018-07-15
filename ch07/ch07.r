@@ -182,6 +182,7 @@ grouped_ages <- cut(ages, seq.int(16, 66, 10))
 grouped_ages
 head(grouped_ages)
 table(grouped_ages)
+
 # test cut()
 cut(c(11, 22, 23,34,55,62), seq.int(10,70, 10))
 class(cut(c(11, 22, 23,34,55,62), seq.int(10,70, 10)))
@@ -193,7 +194,10 @@ hist(ages)
 # processing dirty data
 dirty <- data.frame(x = c("1.23","4..56", "7.89"))
 dirty
-as.numeric(dirty$x)
+class(dirty$x)   # it is factor type
+not_dirty <- as.numeric(dirty$x)
+not_dirty
+
 
 as.character(dirty$x)
 as.numeric(as.character(dirty$x))
@@ -229,7 +233,7 @@ print("\a")
 # get NA
 
 # Q7-5
-cut()
+# cut()
 
 ## Exercises
 # E7-1
@@ -258,4 +262,5 @@ unique(rt)
 table(rt)
 t <-cut(rt, c(2,3,5,8,12,15,17,18))
 t <-cut(rt, c(2,3,5,8,12,15,17,18), labels = -3:3)
+t
 table(t)      

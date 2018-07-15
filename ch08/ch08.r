@@ -10,8 +10,7 @@ if(runif(1) > 0.5) message("This message appears with a 50% chance.")
 
 # it's better to include inside curly braces
 x <- 3
-if(x > 2)  
-  {
+if(x > 2) {
   (y <- 2 * x)
 #  print(y)
   (z <- 3 * y)
@@ -281,4 +280,7 @@ charNumber
 for (i in min(charNumber):max(charNumber)){
   print(sprintf("%d letter words: %s", i, toString(unique(sea_shells[charNumber == i]))))
 }
+
+charNumber == 6
+sea_shells[charNumber == 6]
 

@@ -288,6 +288,7 @@ vapply(wayans, NROW, integer(1))
 
 # E9-2
 state.x77
+summary((state.x77))
 vapply(state.x77, mean, numeric(1))
 vapply(state.x77, summary, numeric(6))
 ddply(state.x77, Population, colwise(mean))

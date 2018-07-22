@@ -154,7 +154,7 @@ library(sqldf)
 # get subset from SQL file directly
 subset(deer_endocranial_volume,
   VolCT > 400 | VolCT2 > 400,
-  c(VolCT, VolCT2)
+  c(VolBead2, VolCT, VolCT2, VolBead)
 )
 
 query <-  "SELECT VolCT, VolCT2 
@@ -167,6 +167,7 @@ sqldf(query)
 
 # 3. Sorting
 x <- c(2, 32, 4, 16, 8)
+x
 sort(x)
 sort(x, decreasing = TRUE)
 sort(c("I", "shot", "the", "city", "sheriff"))

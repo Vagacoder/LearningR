@@ -10,6 +10,8 @@ mean(obama)
 median(obama)
 
 # table()
+table(obama)
+table(obama_vs_mccain)
 table(cut(obama, seq.int(0, 100,10)))
 
 # var() and sd()
@@ -93,7 +95,7 @@ xyplot( Turnout ~ Income,
   scales = list(y = list(log = TRUE)) #y-axis log scaled (Fig. 14-9)
 )
 
-# splir data using "|"
+# split data using "|"
 xyplot(Turnout ~ Income | Region,
   obama_vs_mccain,
   scales = list(
@@ -287,6 +289,7 @@ data(obama_vs_mccain, package = "learningr")
 obama_vs_mccain
 
 with(obama_vs_mccain, cor(Obama, Unemployment))
+cor(obama_vs_mccain$Obama, obama_vs_mccain$Unemployment)
 
 with(obama_vs_mccain, plot(Obama, Unemployment))
 xyplot(Unemployment ~ Obama, obama_vs_mccain)

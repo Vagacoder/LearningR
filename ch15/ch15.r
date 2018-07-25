@@ -68,6 +68,15 @@ model1
 model1 <- lm(Rate ~ Year + Age.Group + Gender, gono)
 model1
 
+gono
+Filter(is.factor, gono)
+levels(Filter(is.factor, gono))
+nlevels(Filter(is.factor, gono))
+lapply(Filter(is.factor, gono), nlevels)
+
+levels(Filter(is.factor, gono$Age.Group))
+levels(Filter(is.factor, gono$Gender))
+
 lapply(Filter(is.factor, gono), levels)
 lapply(gono, levels)
 levels(gono$Year)
